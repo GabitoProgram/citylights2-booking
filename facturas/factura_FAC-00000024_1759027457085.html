@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factura CITYLIGHTS - FAC-00000024</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+    @media print {
+      body { margin: 0; font-size: 12pt; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body { 
+      font-family: 'Arial', 'Helvetica', sans-serif; 
+      line-height: 1.4; 
+      color: #000;
+      background: #fff;
+      font-size: 14px;
+    }
+    
+    /* HEADER EMPRESARIAL */
+    .company-header { 
+      text-align: center; 
+      margin-bottom: 30px; 
+      padding: 25px 0;
+      border-bottom: 3px solid #1e3a8a;
+      background: linear-gradient(135deg, #f8faff 0%, #e0e7ff 100%);
+    }
+    .company-name { 
+      font-size: 36px; 
+      font-weight: bold; 
+      color: #1e3a8a;
+      letter-spacing: 3px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 8px;
+    }
+    .company-tagline {
+      font-size: 14px;
+      color: #4b5563;
+      font-style: italic;
+      margin-bottom: 15px;
+    }
+    .document-title { 
+      font-size: 24px; 
+      color: #1e3a8a;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* INFORMACIÓN DE LA EMPRESA */
+    .company-info {
+      background: #f8faff;
+      padding: 20px;
+      border-left: 5px solid #1e3a8a;
+      margin-bottom: 25px;
+      border-radius: 0 8px 8px 0;
+    }
+    .company-info h4 {
+      color: #1e3a8a;
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    .company-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .company-detail {
+      color: #374151;
+    }
+    .company-detail strong {
+      color: #1f2937;
+    }
+    
+    /* INFORMACIÓN FISCAL */
+    .fiscal-section { 
+      background: #fffbeb;
+      border: 2px solid #f59e0b;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 25px 0;
+    }
+    .fiscal-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #92400e;
+      margin-bottom: 15px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    
+    /* SECCIONES PRINCIPALES */
+    .main-section { 
+      margin: 25px 0;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5e7eb;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* FILAS DE INFORMACIÓN */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .info-row {
+      margin: 12px 0;
+      display: flex;
+      align-items: flex-start;
+    }
+    .info-label { 
+      font-weight: bold; 
+      width: 140px;
+      color: #374151;
+      flex-shrink: 0;
+      font-size: 13px;
+    }
+    .info-value {
+      color: #111827;
+      font-weight: 500;
+      flex: 1;
+      font-size: 13px;
+    }
+    
+    /* TABLA DE SERVICIOS */
+    .services-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+    .services-table th,
+    .services-table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #d1d5db;
+    }
+    .services-table th {
+      background: #1e3a8a;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    .services-table tr:nth-child(even) {
+      background: #f9fafb;
+    }
+    
+    /* TOTALES */
+    .totals-section { 
+      margin: 40px 0 30px 0;
+      padding: 25px;
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      border: 3px solid #1e3a8a;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .total-label {
+      font-size: 16px;
+      color: #1e3a8a;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .total-amount { 
+      font-size: 32px; 
+      font-weight: bold; 
+      color: #1e3a8a;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      letter-spacing: 1px;
+    }
+    
+    /* FOOTER */
+    .footer-section { 
+      margin-top: 50px; 
+      padding-top: 25px;
+      border-top: 2px solid #e5e7eb;
+      text-align: center;
+    }
+    .footer-content {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+    .footer-content .highlight {
+      color: #1e3a8a;
+      font-weight: bold;
+    }
+    .legal-text {
+      font-size: 10px;
+      color: #9ca3af;
+      margin-top: 15px;
+      font-style: italic;
+    }
+    
+    /* INSTRUCCIONES DE IMPRESIÓN */
+    .print-instructions {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      padding: 25px;
+      border-radius: 12px;
+      margin: 30px 0;
+      border: 2px solid #f59e0b;
+      text-align: center;
+    }
+    .print-instructions h3 {
+      color: #92400e;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+    .print-instructions ol {
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto 20px auto;
+      color: #78350f;
+    }
+    .print-instructions li {
+      margin: 8px 0;
+      font-weight: 500;
+    }
+    .print-button {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .print-button:hover {
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+  <script>
+    function descargarPDF() {
+      // Instrucciones específicas para diferentes navegadores
+      const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+      const isFirefox = /Firefox/.test(navigator.userAgent);
+      
+      let mensaje = 'INSTRUCCIONES PARA GUARDAR COMO PDF:\n\n';
+      
+      if (isChrome) {
+        mensaje += '1. Presione Ctrl+P (o Cmd+P en Mac)\n';
+        mensaje += '2. En "Destino", seleccione "Guardar como PDF"\n';
+        mensaje += '3. Ajuste los márgenes si es necesario\n';
+        mensaje += '4. Haga clic en "Guardar"';
+      } else if (isFirefox) {
+        mensaje += '1. Presione Ctrl+P (o Cmd+P en Mac)\n';
+        mensaje += '2. Seleccione "Microsoft Print to PDF" o "Guardar como PDF"\n';
+        mensaje += '3. Haga clic en "Imprimir"\n';
+        mensaje += '4. Elija la ubicación para guardar';
+      } else {
+        mensaje += '1. Presione Ctrl+P (o Cmd+P en Mac)\n';
+        mensaje += '2. Busque la opción "Guardar como PDF"\n';
+        mensaje += '3. Configure los ajustes si es necesario\n';
+        mensaje += '4. Guarde el archivo';
+      }
+      
+      alert(mensaje);
+      setTimeout(() => {
+        window.print();
+      }, 500);
+    }
+  </script>
+</head>
+<body>
+  <!-- INSTRUCCIONES DE DESCARGA (solo en pantalla) -->
+  <div class="print-instructions no-print">
+    <h3>📋 Cómo Descargar Esta Factura como PDF</h3>
+    <ol>
+      <li><strong>Haga clic</strong> en el botón azul de abajo</li>
+      <li><strong>Presione Ctrl+P</strong> cuando se abra la ventana</li>
+      <li><strong>Seleccione "Guardar como PDF"</strong> en el destino</li>
+      <li><strong>Ajuste los márgenes</strong> a "Mínimos" para mejor presentación</li>
+      <li><strong>Guarde</strong> su factura oficial en formato PDF</li>
+    </ol>
+    <button class="print-button" onclick="descargarPDF()">
+      📄 GENERAR PDF OFICIAL
+    </button>
+  </div>
+
+  <!-- HEADER DE LA EMPRESA -->
+  <div class="company-header">
+    <div class="company-name">CITYLIGHTS</div>
+    <div class="company-tagline">Sistema Profesional de Gestión de Reservas</div>
+    <div class="document-title">FACTURA OFICIAL</div>
+  </div>
+
+  <!-- INFORMACIÓN DE LA EMPRESA -->
+  <div class="company-info">
+    <h4>DATOS DE LA EMPRESA</h4>
+    <div class="company-details">
+      <div class="company-detail"><strong>Razón Social:</strong> CITYLIGHTS BOOKING S.R.L.</div>
+      <div class="company-detail"><strong>NIT:</strong> 1234567890123</div>
+      <div class="company-detail"><strong>Actividad:</strong> Servicios de Reservas</div>
+      <div class="company-detail"><strong>Sucursal:</strong> Casa Matriz</div>
+      <div class="company-detail"><strong>Teléfono:</strong> +591 2 2345678</div>
+      <div class="company-detail"><strong>Email:</strong> facturas@citylights.com</div>
+    </div>
+  </div>
+
+  <!-- INFORMACIÓN FISCAL -->
+  <div class="fiscal-section">
+    <div class="fiscal-title">🏛️ INFORMACIÓN FISCAL</div>
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="info-label">Número de Factura:</span>
+        <span class="info-value"><strong>FAC-00000024</strong></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Fecha de Emisión:</span>
+        <span class="info-value"><strong>27/9/2025</strong></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Código de Autorización:</span>
+        <span class="info-value">29040011007</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Fecha Límite de Emisión:</span>
+        <span class="info-value">27/9/2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATOS DEL CLIENTE -->
+  <div class="main-section">
+    <div class="section-title">👤 DATOS DEL CLIENTE</div>
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="info-label">Nombre/Razón Social:</span>
+        <span class="info-value">Cliente General</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">ID de Usuario:</span>
+        <span class="info-value">No disponible</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Email:</span>
+        <span class="info-value">cliente@citylights.com</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Rol de Usuario:</span>
+        <span class="info-value">Usuario</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Fecha de Transacción:</span>
+        <span class="info-value">27/9/2025</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETALLE DE SERVICIOS -->
+  <div class="main-section">
+    <div class="section-title">🏢 DETALLE DE SERVICIOS PRESTADOS</div>
+    <table class="services-table">
+      <thead>
+        <tr>
+          <th style="width: 60%">Descripción del Servicio</th>
+          <th style="width: 15%">Cantidad</th>
+          <th style="width: 25%">Precio Unitario (BOB)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Reserva de Salon de Fiestas</strong><br>
+            <small style="color: #6b7280;">
+              Fecha de Reserva: 27/9/2025
+            </small>
+          </td>
+          <td style="text-align: center;">1</td>
+          <td style="text-align: right; font-weight: bold;">1.46.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TOTALES -->
+  <div class="totals-section">
+    <div class="total-label">TOTAL A PAGAR</div>
+    <div class="total-amount">1.46.00 BOB</div>
+    <div style="font-size: 14px; color: #1e3a8a; margin-top: 10px;">
+      <em>Son: uno 00/100 Bolivianos</em>
+    </div>
+  </div>
+
+  <!-- INFORMACIÓN ADICIONAL -->
+  <div class="main-section">
+    <div class="section-title">ℹ️ INFORMACIÓN ADICIONAL</div>
+    <div style="font-size: 13px; line-height: 1.6; color: #374151;">
+      <p><strong>Método de Pago:</strong> Pago Electrónico - Stripe Payment Gateway</p>
+      <p><strong>Estado de Pago:</strong> ✅ PAGADO Y CONFIRMADO</p>
+      <p><strong>Condiciones:</strong> Servicio prestado al contado, sin descuentos aplicables.</p>
+      <p><strong>Validez:</strong> Esta factura es válida por tiempo indefinido como comprobante de pago.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER LEGAL -->
+  <div class="footer-section">
+    <div class="footer-content">
+      <p class="highlight">¡Gracias por confiar en CITYLIGHTS!</p>
+      <p>CITYLIGHTS - Sistema Profesional de Gestión de Reservas</p>
+      <p>📧 contacto@citylights.com | 🌐 www.citylights.com</p>
+      <p>📍 Av. Arce #2345, Edificio Torre Empresarial, Piso 15, La Paz, Bolivia</p>
+    </div>
+    <div class="legal-text">
+      <p>Esta factura ha sido generada electrónicamente y tiene plena validez legal.</p>
+      <p>Documento generado el 27/9/2025, 10:44:17 p. m. | ID: FAC-00000024</p>
+    </div>
+  </div>
+</body>
+</html>

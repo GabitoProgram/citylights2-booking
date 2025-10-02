@@ -1,0 +1,21 @@
+
+==============================================
+         FACTURA CITYLIGHTS
+==============================================
+
+Número de Factura: FAC-00000004
+Fecha: 27/9/2025
+Cliente: Cliente General
+Empresa: CITYLIGHTS
+Total: 19.345 BOB
+
+Servicio: Reserva de Salon de Fiestas
+
+Fecha y hora de la reserva:
+Inicio: 14/12/2025, 1:00:00 a. m.
+Fin: 14/12/2025, 2:15:00 p. m.
+
+==============================================
+¡Gracias por su preferencia!
+CITYLIGHTS - Sistema de Reservas
+==============================================

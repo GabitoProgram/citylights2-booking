@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factura TEST-PUPPETEER-001</title>
+  <style>
+    @media print {
+      body { margin: 0; }
+      .no-print { display: none; }
+    }
+    body { 
+      font-family: 'Arial', sans-serif; 
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px; 
+      line-height: 1.6; 
+      color: #000;
+      background: #fff;
+    }
+    .header { 
+      text-align: center; 
+      margin-bottom: 40px; 
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 30px;
+    }
+    .title { 
+      font-size: 32px; 
+      font-weight: bold; 
+      margin-bottom: 15px; 
+      color: #1e40af;
+      letter-spacing: 2px;
+    }
+    .subtitle { 
+      font-size: 20px; 
+      color: #374151;
+      font-weight: 600;
+    }
+    .section { 
+      margin: 35px 0;
+      padding: 25px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #2563eb;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1e40af;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .row {
+      margin: 15px 0;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .label { 
+      font-weight: bold; 
+      width: 180px;
+      color: #374151;
+      flex-shrink: 0;
+    }
+    .value {
+      color: #111827;
+      font-weight: 500;
+    }
+    .total-section { 
+      text-align: center;
+      margin: 50px 0; 
+      padding: 30px; 
+      border: 3px solid #2563eb; 
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .total-amount { 
+      font-size: 28px; 
+      font-weight: bold; 
+      color: #1e40af;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    .footer { 
+      text-align: center; 
+      margin-top: 60px; 
+      font-size: 14px;
+      color: #6b7280;
+      border-top: 2px solid #e5e7eb;
+      padding-top: 30px;
+    }
+    .footer p {
+      margin: 8px 0;
+    }
+    .footer strong {
+      color: #1e40af;
+    }
+    .print-instructions {
+      background: #fef3c7;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 30px 0;
+      border-left: 4px solid #f59e0b;
+    }
+    .print-button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 20px 0;
+    }
+    .print-button:hover {
+      background: #1d4ed8;
+    }
+  </style>
+  <script>
+    function imprimirFactura() {
+      window.print();
+    }
+    function descargarPDF() {
+      alert('Use Ctrl+P y seleccione "Guardar como PDF" para descargar el PDF');
+      window.print();
+    }
+  </script>
+</head>
+<body>
+  <div class="print-instructions no-print">
+    <h3>📋 Instrucciones para Descargar PDF:</h3>
+    <p>1. Haga clic en el botón "Imprimir/Guardar PDF" abajo</p>
+    <p>2. En la ventana de impresión, seleccione "Guardar como PDF"</p>
+    <p>3. Elija la ubicación donde guardar su factura</p>
+    <button class="print-button" onclick="descargarPDF()">📄 Imprimir/Guardar como PDF</button>
+  </div>
+
+  <div class="header">
+    <div class="title">CITYLIGHTS</div>
+    <div class="subtitle">FACTURA OFICIAL</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Información Fiscal</div>
+    <div class="row">
+      <span class="label">Número de Factura:</span>
+      <span class="value">TEST-PUPPETEER-001</span>
+    </div>
+    <div class="row">
+      <span class="label">Fecha de Emisión:</span>
+      <span class="value">27/09/2025</span>
+    </div>
+    <div class="row">
+      <span class="label">NIT Empresa:</span>
+      <span class="value">1234567890123</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Datos del Cliente</div>
+    <div class="row">
+      <span class="label">Cliente:</span>
+      <span class="value">Cliente de Prueba</span>
+    </div>
+    <div class="row">
+      <span class="label">Documento:</span>
+      <span class="value">Cliente General</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Detalle del Servicio</div>
+    <div class="row">
+      <span class="label">Servicio:</span>
+      <span class="value">Reserva de Área Común</span>
+    </div>
+    
+  </div>
+
+  <div class="total-section">
+    <div class="total-amount">TOTAL: 100 BOB</div>
+  </div>
+
+  <div class="footer">
+    <p><strong>¡Gracias por su preferencia!</strong></p>
+    <p>CITYLIGHTS - Sistema de Gestión de Reservas</p>
+    <p>www.citylights.com | contacto@citylights.com</p>
+    <p><em>Este documento constituye una factura válida generada electrónicamente</em></p>
+    <p><small>Generado el 27/9/2025, 9:14:10 p. m.</small></p>
+  </div>
+</body>
+</html>

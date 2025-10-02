@@ -1,0 +1,21 @@
+
+==============================================
+         FACTURA CITYLIGHTS
+==============================================
+
+Número de Factura: TEST-001
+Fecha: 27/9/2025
+Cliente: Cliente Test
+Empresa: CITYLIGHTS TEST
+Total: 100 BOB
+
+Servicio: Reserva de Área Común
+
+Fecha y hora de la reserva:
+Inicio: N/A
+Fin: N/A
+
+==============================================
+¡Gracias por su preferencia!
+CITYLIGHTS - Sistema de Reservas
+==============================================

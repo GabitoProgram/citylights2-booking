@@ -1,0 +1,229 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//////////////////////
+// ENUMS
+//////////////////////
+
+enum PagoStatus {
+  PENDING
+  CANCELLED
+  ACCEPTED
+}
+
+enum Verificacion {
+  PENDING
+  CANCELLED
+  ACCEPTED
+}
+
+enum EstadoReserva {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum MetodoPago {
+  TARJETA_CREDITO
+  TARJETA_DEBITO
+  QR_CODE
+}
+
+enum EstadoFactura {
+  PENDIENTE
+  GENERADA
+  ENVIADA
+}
+
+enum TipoTarjeta {
+  VISA
+  MASTERCARD
+  AMERICAN_EXPRESS
+  DINNERS
+  OTRO
+}
+
+//////////////////////
+// MODELS
+//////////////////////
+
+model AreaComun {
+  id          Int       @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  capacidad   Int
+  costoHora   Float
+  activa      Boolean   @default(true)
+
+  reservas    Reserva[]
+  bloqueos    Bloqueo[]
+}
+
+model Reserva {
+  id        Int           @id @default(autoincrement())
+  areaId    Int
+  usuarioId String        // referencia externa al microservicio de usuarios
+  inicio    DateTime
+  fin       DateTime
+  estado    EstadoReserva @default(PENDING)
+  costo     Float
+
+  // Campos de auditoría
+  usuarioNombre String?     // Nombre del usuario (desde token)
+  usuarioRol    String?     // Rol del usuario
+  creadoEn      DateTime    @default(now())
+  actualizadoEn DateTime    @updatedAt
+
+  area          AreaComun   @relation(fields: [areaId], references: [id])
+  confirmacion  Confirmacion?
+  pagosReserva  PagoReserva[]
+}
+
+model Bloqueo {
+  id        Int       @id @default(autoincrement())
+  areaId    Int
+  inicio    DateTime
+  fin       DateTime
+  motivo    String?
+
+  area      AreaComun @relation(fields: [areaId], references: [id])
+}
+
+model Confirmacion {
+  id         Int          @id @default(autoincrement())
+  reservaId  Int          @unique
+  codigoQr   String
+  fecha      DateTime     @default(now())
+  verificada Verificacion @default(PENDING)
+
+  reserva Reserva @relation(fields: [reservaId], references: [id])
+}
+
+model PagoReserva {
+  id              Int          @id @default(autoincrement())
+  reservaId       Int
+  metodoPago      MetodoPago
+  monto           Float
+  estado          PagoStatus   @default(PENDING)
+  fechaCreacion   DateTime     @default(now())
+  fechaPago       DateTime?
+  
+  // Campos para pago con tarjeta
+  numeroTarjeta   String?      // Los últimos 4 dígitos (encriptado)
+  tipoTarjeta     TipoTarjeta?
+  nombreTitular   String?
+  fechaVencimiento String?     // MM/YY
+  cvv             String?      // Encriptado, solo para validación
+  
+  // Campos para pago QR
+  codigoQr        String?      // Código QR generado
+  urlQr           String?      // URL del QR para pago
+  
+  // Información de transacción
+  transaccionId   String?      // ID de la transacción del proveedor de pago
+  referenciaPago  String?      // Referencia interna del pago
+  
+  // Campos de auditoría
+  usuarioId       Int?         // ID del usuario que procesa el pago
+  usuarioNombre   String?      // Nombre del usuario
+  
+  // Relaciones
+  reserva         Reserva      @relation(fields: [reservaId], references: [id])
+  factura         Factura?
+}
+
+model Factura {
+  id                Int            @id @default(autoincrement())
+  pagoReservaId     Int            @unique
+  numeroFactura     String         @unique
+  fechaEmision      DateTime       @default(now())
+  estado            EstadoFactura  @default(PENDIENTE)
+  
+  // Campos obligatorios según normativa fiscal boliviana
+  nit               String         // NIT de la empresa emisora
+  razonSocial       String         // Razón social de la empresa
+  numeroAutorizacion String        // Número de autorización del SIN
+  codigoControl     String         // Código de control generado
+  fechaLimiteEmision DateTime      // Fecha límite de emisión
+  
+  // Datos del cliente
+  clienteNombre     String
+  clienteEmail      String?
+  clienteDocumento  String?        // CI, NIT o Pasaporte del cliente
+  clienteComplemento String?       // Complemento del CI si aplica
+  
+  // Datos de la empresa (emisor)
+  empresaNombre     String
+  empresaNit        String         // NIT de la empresa
+  empresaDireccion  String
+  empresaTelefono   String?
+  empresaEmail      String?
+  sucursal          String?        // Sucursal si aplica
+  municipio         String         // Municipio donde se emite
+  
+  // Detalles fiscales bolivianos
+  subtotal          Float
+  descuento         Float          @default(0)
+  montoGiftCard     Float          @default(0)
+  total             Float
+  moneda            String         @default("BOB")  // Bolivianos
+  tipoCambio        Float          @default(1)      // Si se maneja otra moneda
+  
+  // Información fiscal adicional
+  actividadEconomica String        // Código de actividad económica
+  leyenda           String?        // Leyenda fiscal si aplica
+  usuario           String         // Usuario que emite la factura
+  
+  // QR Code fiscal boliviano
+  qrFiscal          String?        // QR con información fiscal
+  urlVerificacion   String?        // URL para verificar en el SIN
+  
+  // Archivos
+  rutaPdf           String?        // Ruta donde se guarda el PDF
+  hashArchivo       String?        // Hash del archivo para verificar integridad
+  
+  // Campos de auditoría
+  usuarioId         Int?           // ID del usuario que crea la factura
+  usuarioNombre     String?        // Nombre del usuario
+  
+  // Relaciones
+  pagoReserva       PagoReserva    @relation(fields: [pagoReservaId], references: [id])
+}
+
+// Tabla de auditoría para logging automático
+model AuditoriaLog {
+  id            Int      @id @default(autoincrement())
+  usuarioId     Int?     // ID del usuario que realizó la acción
+  usuarioNombre String?  // Nombre del usuario
+  usuarioRol    String?  // Rol del usuario
+  
+  // Información de la operación
+  accion        String   // CREATE, UPDATE, DELETE, READ
+  tabla         String   // Nombre de la tabla afectada
+  registroId    String?  // ID del registro afectado
+  
+  // Datos de la operación
+  datosAnteriores Json?  // Estado anterior (para updates)
+  datosNuevos     Json?  // Estado nuevo
+  
+  // Metadatos
+  ip            String?  // IP del usuario
+  userAgent     String?  // User agent del navegador
+  endpoint      String?  // Endpoint llamado
+  metodo        String?  // GET, POST, PUT, DELETE
+  
+  // Timestamps
+  fechaHora     DateTime @default(now())
+  
+  @@map("auditoria_logs")
+}
