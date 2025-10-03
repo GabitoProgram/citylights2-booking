@@ -98,6 +98,14 @@ export class ReservaController {
     return this.reservaService.findAll(user);
   }
 
+  // AGREGADO: Endpoint para calendario
+  @Get('calendar')
+  @UseGuards(JwtAuthGuard)
+  async findAllForCalendarHttp(@Req() req) {
+    this.logger.log(`📅 [Calendar Endpoint] Usuario ${req.user?.email} solicitando TODAS las reservas para calendario`);
+    return this.reservaService.findAllForCalendar();
+  }
+
   // Ruta HTTP GET para buscar reserva por id
   @Get(':id')
   findOneHttp(@Param('id') id: number) {
